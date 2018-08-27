@@ -19,5 +19,3 @@ For this project, we will get data from [Data.gov.sg](https://data.gov.sg/develo
 
 ## Comparison analysis
 All the algorithms will be build from scratch. Once the project is finished and running, it would be interesting to compare how our algorithms hold versus the standard libraries'.
-
-test

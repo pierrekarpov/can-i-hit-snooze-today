@@ -8,15 +8,15 @@ For this project, we will get data from [Data.gov.sg](https://data.gov.sg/develo
 
 1. Get and store images from [traffic images API](https://data.gov.sg/dataset/traffic-images) [DONE]
 2. Automatically and periodically get data from [traffic images API](https://data.gov.sg/dataset/traffic-images) for all locations, and all times.
-2. Build tool to classify part of an image [DONE]
-3. Go through our image library, classify a lot of examples car/no car
-4. Train CNN to detect whether car/no car
-5. Go through our image library, label how many cars in each picture.
-6. Test CNN detect the correct number of cars
-7. Get images from [traffic images API](https://data.gov.sg/dataset/traffic-images), but only for the times and locations of my commute.
-8. Build time series with how many cars, at what time, and where.
-9. Run LSTM algorithm to estimate whether or not there will be traffic today.
-10. Snooze peacefully 😴😴😴
+3. Build tool to classify part of an image [DONE]
+4. Go through our image library, classify a lot of examples car/no car
+5. Train CNN to detect whether car/no car
+6. Go through our image library, label how many cars in each picture.
+7. Test CNN detect the correct number of cars
+8. Use the images from [traffic images API](https://data.gov.sg/dataset/traffic-images) for the times and locations of my commute specifically.
+9. Build time series with how many cars, at what time, and where.
+10. Run LSTM algorithm to estimate whether or not there will be traffic today.
+11. Snooze peacefully 😴😴😴
 
 ## Comparison analysis
 All the algorithms will be build from scratch. Once the project is finished and running, it would be interesting to compare how our algorithms hold versus the standard libraries'.

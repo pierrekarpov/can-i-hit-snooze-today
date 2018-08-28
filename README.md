@@ -6,8 +6,9 @@ For this project, we will get data from [Data.gov.sg](https://data.gov.sg/develo
 
 ## Project pipeline
 
-1. Get many images from [traffic images API](https://data.gov.sg/dataset/traffic-images) from all locations, at all times.
-2. Build tool to classify part of an image
+1. Get and store images from [traffic images API](https://data.gov.sg/dataset/traffic-images) [DONE]
+2. Automatically and periodically get data from [traffic images API](https://data.gov.sg/dataset/traffic-images) for all locations, and all times.
+2. Build tool to classify part of an image [DONE]
 3. Go through our image library, classify a lot of examples car/no car
 4. Train CNN to detect whether car/no car
 5. Go through our image library, label how many cars in each picture.

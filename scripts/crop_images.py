@@ -3,9 +3,11 @@ import csv
 from Tkinter import *
 from tkFileDialog import askopenfilename
 from PIL import Image, ImageTk
+from os import listdir
+from os.path import isfile, join
 
 class ui_controls:
-    def __init__(self, dim=50, offset=5, x=0, y=0, lines=[], to_save=[], is_car=True, file_path="./image_data/images/2018/08/fd10484b-fa1d-4df0-b394-431e17b9ec44.jpg"):
+    def __init__(self, dim=64, offset=5, x=0, y=0, lines=[], to_save=[], is_car=True, file_path="./image_data/images/2018/08/fd10484b-fa1d-4df0-b394-431e17b9ec44.jpg"):
         self.dim = IntVar()
         self.dim.set(dim)
         self.offset = offset
@@ -20,11 +22,12 @@ class ui_controls:
         self.file_path = file_path
 
     def make_smaller(self):
-        if self.dim.get() >= self.offset:
-            self.dim.set(self.dim.get() - self.offset)
+        if self.dim.get() >= 16:
+            self.dim.set(self.dim.get() / 2)
 
     def make_bigger(self):
-        self.dim.set(self.dim.get() + self.offset)
+        if self.dim.get() <= 32:
+            self.dim.set(self.dim.get() * 2)
 
     def toggle_is_car(self):
         self.is_car.set(not self.is_car.get())
@@ -116,12 +119,21 @@ if __name__ == "__main__":
 
     #adding the image
     # File = askopenfilename(parent=root, initialdir="C:/",title='Choose an image.')
-    File = "./image_data/images/2018/08/fd10484b-fa1d-4df0-b394-431e17b9ec44.jpg"
+    image_selections = [f for f in listdir("./image_data/image_selections") if isfile(join("./image_data/image_selections", f))]
+    images = [f for f in listdir("./image_data/images/2018/08") if isfile(join("./image_data/images/2018/08", f))]
+    todo = [x for x in images if (x + ".csv") not in image_selections]
+    if len(todo) == 0:
+        print "all done"
+        root.quit()
+
+    File =  "./image_data/images/2018/08/" + todo[0]
+    print "opening " + todo[0]
+    # File = "./image_data/images/2018/08/fcdb93ef-20df-42b2-a8b4-237027ee2972.jpg"
     img = ImageTk.PhotoImage(Image.open(File))
     canvas.create_image(0,0,image=img,anchor="nw")
     canvas.config(scrollregion=canvas.bbox(ALL))
 
-    cntrls = ui_controls()
+    cntrls = ui_controls(file_path=File)
 
     #function to be called when mouse is clicked
     def draw_rect(event):

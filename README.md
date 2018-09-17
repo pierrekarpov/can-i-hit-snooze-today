@@ -6,13 +6,13 @@ For this project, we will get data from [Data.gov.sg](https://data.gov.sg/develo
 
 ## Project pipeline
 
-1. [x] Get and store images from [traffic images API](https://data.gov.sg/dataset/traffic-images)
+1. [x] Get and store images from [traffic images API](https://data.gov.sg/dataset/traffic-images) ([script](scripts/get_images.py))
 2. [ ] Automatically and periodically get data from [traffic images API](https://data.gov.sg/dataset/traffic-images) for all locations, and all times.
-3. [x] Build tool to classify part of an image
+3. [x] Build tool to classify part of an image ([script](scripts/make_selections.py))
 4. [x] Go through our image library, classify a lot of examples car/no car
-5. [x] Go through classified data, crop and resize selctions out of original pictures
-6. [x] Write code to build, train, and test my own deep NNs
-7. [ ] Train CNN to detect whether car/no car
+5. [x] Go through classified data, crop and resize selctions out of original pictures ([script](scripts/crop_selections.py))
+6. [x] Write code to build, train, and test my own deep NNs ([script1](scripts/nn.py)) ([script2](scripts/deep_nn_step_by_step.py))
+7. [x] Train CNN to detect whether car/no car ([script](scripts/car_detection.py))
 8. [ ] Go through our image library, label how many cars in each picture.
 9. [ ] Test CNN detect the correct number of cars
 10. [ ] Use the images from [traffic images API](https://data.gov.sg/dataset/traffic-images) for the times and locations of my commute specifically.

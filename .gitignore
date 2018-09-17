@@ -106,3 +106,4 @@ venv.bak/
 /image_data/image_selections/*
 /image_data/images/*
 /image_data/cropped_images/*
+/image_data/models/*

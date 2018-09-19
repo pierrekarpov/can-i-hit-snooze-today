@@ -104,7 +104,7 @@ def slide_through_image(path="image_data/images/2018/08/1e0c1720-759d-4113-b3d2-
         squares = load_squares()
 
     show_boxes(img, squares)
-    num_clusters = count_clusters(img, squares, False)
+    num_clusters = count_clusters(img, squares, True)
     return num_clusters
 
 if __name__ == "__main__":

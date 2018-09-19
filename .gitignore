@@ -109,3 +109,4 @@ venv.bak/
 /image_data/models/*
 /image_data/article_material/*
 /image_data/tmp_files/*
+/image_data/camera_images_time_series/*

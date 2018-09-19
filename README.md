@@ -10,11 +10,11 @@ For this project, we will get data from [Data.gov.sg](https://data.gov.sg/develo
 2. [ ] Automatically and periodically get data from [traffic images API](https://data.gov.sg/dataset/traffic-images) for all locations, and all times.
 3. [x] Build tool to classify part of an image ([script](scripts/make_selections.py))
 4. [x] Go through our image library, classify a lot of examples car/no car
-5. [x] Go through classified data, crop and resize selctions out of original pictures ([script](scripts/crop_selections.py))
+5. [x] Go through classified data, crop and resize selections out of original pictures ([script](scripts/crop_selections.py))
 6. [x] Write code to build, train, and test my own deep NNs ([script1](scripts/nn.py)) ([script2](scripts/deep_nn_step_by_step.py))
 7. [x] Train CNN to detect whether car/no car ([script](scripts/car_detection.py))
-8. [ ] Go through our image library, label how many cars in each picture.
-9. [ ] Test CNN detect the correct number of cars
+8. [x] Use sliding doors technique to dectect the car sections in pictures ([script](scripts/sliding_doors.py))
+9. [x] Estimaste how many cars in pictures with neighborhood counting ([script](scripts/count_clusters.py))
 10. [ ] Use the images from [traffic images API](https://data.gov.sg/dataset/traffic-images) for the times and locations of my commute specifically.
 11. [ ] Build time series with how many cars, at what time, and where.
 12. [ ] Run LSTM algorithm to estimate whether or not there will be traffic today.
@@ -28,3 +28,10 @@ All the algorithms will be build from scratch. Once the project is finished and 
 * Webcrawler to get traffic data for google maps
 * Perform image difference (background extraction) to count how many cars
 * Time commute everyday and interpolate from there how long it takes
+
+## Future plans
+* Run scripts automatically
+* Notification system when the user wakes up
+* Parameterizasion for user people to use it in other regions of Singapore
+* Plateform where people can sign up, and receive notifications as they wake up
+* Mobile app for alarm clock, that will automatically readjust based on traffic

@@ -7,28 +7,33 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.externals import joblib
 
 
-def flatten_image(path="image_data/cropped_images/car/6b6777a5-ff5c-4f11-9f1c-8a98ba75e2f4_car_0.jpg", is_car=True, flat_image_size=3072):
-    # path = "image_data/cropped_images/" + ("car/" if is_car else "not_car/")  + file_name
-    im = Image.open(path)
-
-    flat = list(im.getdata())
+def flatten_image(img, is_car=True, flat_image_size=3072):
+    flat = list(img.getdata())
     label = 1 if is_car else 0
+
+    if (img.size[0] * img.size[1] * 3) != flat_image_size:
+        print("Unexpected size %d, expecting %d" %(img.size[0] * img.size[1] * 3, flat_image_size))
 
     np_flat = np.array(flat).reshape(1, flat_image_size)
     np_label = np.array([label]).reshape(1, 1)
 
     return np_flat, np_label
 
+def flatten_image_from_path(path="image_data/cropped_images/car/6b6777a5-ff5c-4f11-9f1c-8a98ba75e2f4_car_0.jpg", is_car=True, flat_image_size=3072):
+    im = Image.open(path)
+
+    return flatten_image(im, is_car, flat_image_size)
+
 def flatten_images():
     flat_image_size = 32 *32 *3
 
-    flatten_cars = [flatten_image(join("./image_data/cropped_images/car", f), True, flat_image_size) for f in listdir("./image_data/cropped_images/car") if isfile(join("./image_data/cropped_images/car", f))]
+    flatten_cars = [flatten_image_from_path(join("./image_data/cropped_images/car", f), True, flat_image_size) for f in listdir("./image_data/cropped_images/car") if isfile(join("./image_data/cropped_images/car", f))]
     flatten_cars_X = [fc[0][0] for fc in flatten_cars]
     flatten_cars_y = [fc[1][0] for fc in flatten_cars]
     flatten_cars_X = np.array(flatten_cars_X).reshape(len(flatten_cars), flat_image_size)
     flatten_cars_y = np.array(flatten_cars_y).reshape(len(flatten_cars), 1)
 
-    flatten_not_cars = [flatten_image(join("./image_data/cropped_images/not_car", f), False, flat_image_size) for f in listdir("./image_data/cropped_images/not_car") if isfile(join("./image_data/cropped_images/not_car", f))]
+    flatten_not_cars = [flatten_image_from_path(join("./image_data/cropped_images/not_car", f), False, flat_image_size) for f in listdir("./image_data/cropped_images/not_car") if isfile(join("./image_data/cropped_images/not_car", f))]
     flatten_not_cars_X = [fc[0][0] for fc in flatten_not_cars]
     flatten_not_cars_y = [fc[1][0] for fc in flatten_not_cars]
     flatten_not_cars_X = np.array(flatten_not_cars_X).reshape(len(flatten_not_cars), flat_image_size)
@@ -121,11 +126,11 @@ def load_and_test_model(test_X, test_y):
     accuracy = get_model_accuracy(clf, test_X, test_y)
     print(accuracy)
 
-def classify_image(image_path="image_data/cropped_images/car/6b6777a5-ff5c-4f11-9f1c-8a98ba75e2f4_car_0.jpg"):
-    X, _ = flatten_image(image_path)
+def classify_image_from_path(image_path="image_data/cropped_images/car/6b6777a5-ff5c-4f11-9f1c-8a98ba75e2f4_car_0.jpg"):
+    X, _ = flatten_image_from_path(image_path)
     clf = joblib.load('./image_data/models/car_detection_nn_model.pkl')
     pred = clf.predict(X)
-    print(pred)
+    return pred
 
 
 def main():
@@ -148,7 +153,8 @@ def main():
     not_car_images = ["image_data/cropped_images/not_car/" + fn for fn in not_car_image_file_names]
     images = car_images + not_car_images
     for i in images:
-        classify_image(i)
+        pred = classify_image_from_path(i)
+        print(pred)
 
 if __name__ == "__main__":
     main()

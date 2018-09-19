@@ -24,7 +24,7 @@ def process_file(file_name, rewrite=False):
     written_pics_per_file = 0
     file_path = "image_data/image_selections/" + file_name + ".jpg.csv"
 
-    with open(file_path, 'rb') as csvfile:
+    with open(file_path, 'r') as csvfile:
         datareader = csv.reader(csvfile, delimiter=' ', quotechar='|')
         cars_idx = 0
         not_cars_idx = 0
@@ -66,6 +66,6 @@ if __name__ == "__main__":
     written_files = generate_selections()
     t1 = time()
     cs, ncs = count_cropped_files()
-    
+
     print  "Wrote %d cropped selections in %f s" %(written_files, (t1 - t0))
     print "There are %d cars and %d not cars cropped selections" %(cs, ncs)

@@ -13,8 +13,8 @@ For this project, we will get data from [Data.gov.sg](https://data.gov.sg/develo
 5. [x] Go through classified data, crop and resize selections out of original pictures ([script](scripts/crop_selections.py))
 6. [x] Write code to build, train, and test my own deep NNs ([script1](scripts/nn.py)) ([script2](scripts/deep_nn_step_by_step.py))
 7. [x] Train CNN to detect whether car/no car ([script](scripts/car_detection.py))
-8. [x] Use sliding doors technique to dectect the car sections in pictures ([script](scripts/sliding_doors.py))
-9. [x] Estimaste how many cars in pictures with neighborhood counting ([script](scripts/count_clusters.py))
+8. [x] Use sliding doors technique to detect the car sections in pictures ([script](scripts/sliding_doors.py))
+9. [x] Estimate how many cars in pictures with neighborhood counting ([script](scripts/count_clusters.py))
 10. [ ] Use the images from [traffic images API](https://data.gov.sg/dataset/traffic-images) for the times and locations of my commute specifically.
 11. [ ] Build time series with how many cars, at what time, and where.
 12. [ ] Run LSTM algorithm to estimate whether or not there will be traffic today.

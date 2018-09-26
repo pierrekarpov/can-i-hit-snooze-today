@@ -93,7 +93,7 @@ def show_freq_array(img, freq_array):
 
     img2.show()
 
-def slide_through_image(path="image_data/images/2018/08/1e0c1720-759d-4113-b3d2-e9257e020ae2.jpg", size=32, x_delta=4, y_delta=4, load_from_file=False, is_save=False):
+def slide_through_image(path="image_data/images/2018/08/1e0c1720-759d-4113-b3d2-e9257e020ae2.jpg", size=32, x_delta=4, y_delta=4, load_from_file=False, is_save=False, is_show_imgs=True):
     img = Image.open(path)
     squares = []
 
@@ -104,7 +104,7 @@ def slide_through_image(path="image_data/images/2018/08/1e0c1720-759d-4113-b3d2-
         squares = load_squares()
 
     show_boxes(img, squares)
-    num_clusters = count_clusters(img, squares, True)
+    num_clusters = count_clusters(img, squares, is_show_imgs)
     return num_clusters
 
 if __name__ == "__main__":

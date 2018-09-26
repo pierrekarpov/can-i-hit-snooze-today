@@ -1,9 +1,12 @@
 import json
 import csv
-import requests
-from dateutil.parser import parse
 import os.path
+from dateutil.parser import parse
+import requests
+from dateutil.relativedelta import relativedelta
+import matplotlib.pyplot as plt
 from sliding_doors import slide_through_image
+from time_series_prediction import make_predictions
 
 def get_traffic_camera_api_data(date=None):
     res = {}
@@ -61,21 +64,82 @@ def get_traffic_camera_image(time_stamp, camera_id):
     traffic_camera_data = get_traffic_camera_api_data(time_stamp)
     img_link, img_timestamp = get_image_link(traffic_camera_data, camera_id)
     img_path = get_image_path(img_link, img_timestamp, camera_id)
-    num_cars = slide_through_image(path=img_path)
-    if num_cars < 20:
+
+    return img_path
+
+def load_num_car(camera_id, year, month, day, hour, minute, second):
+    num_cars = -1
+    dt_val = "%s_%s_%sT%s:%s:%s" %(year, month, day, hour, minute, second)
+    file_path = "image_data/camera_images_time_series/%s/time_series.csv" %(camera_id)
+    if os.path.exists(file_path):
+        with open(file_path, 'r') as csvfile:
+            datareader = csv.reader(csvfile, delimiter=' ', quotechar='|')
+            for dt, count in datareader:
+                if dt == dt_val:
+                    num_cars = int(count)
+    return num_cars
+
+def save_num_car(num_car, camera_id, year, month, day, hour, minute, second):
+    dt_val = "%s_%s_%sT%s:%s:%s" %(year, month, day, hour, minute, second)
+    file_path = "image_data/camera_images_time_series/%s/time_series.csv" %(camera_id)
+    with open(file_path, 'a+') as csvfile:
+        datawriter = csv.writer(csvfile, delimiter=' ',
+                                quotechar='|', quoting=csv.QUOTE_MINIMAL)
+        datawriter.writerow([dt_val, num_car])
+
+def get_num_cars_for_traffic_camera(camera_id="6703", year="2018", month="09" , day="24", hour="09", minute="00", second="00", tz_hour="08", tz_minute="00"):
+    num_cars = load_num_car(camera_id, year, month, day, hour, minute, second)
+    if num_cars == -1:
+        time_stamp = year + "-" + month + "-" + day + "T" + hour + "%3A" + minute + "%3A" + second + "%2B" + tz_hour + "%3A" + tz_minute
+        img_path = get_traffic_camera_image(time_stamp, camera_id)
+        num_cars = slide_through_image(path=img_path, is_show_imgs=False)
+        save_num_car(num_cars, camera_id, year, month, day, hour, minute, second)
+
+    return num_cars
+
+def get_data_for_period(start_date_str="2018-09-24", end_date_str="2018-09-26"):
+    data = {}
+
+    start_date = parse(start_date_str)
+    end_date = parse(end_date_str)
+
+    diff = (end_date - start_date).days + 1
+    for i in range(diff):
+        delta = relativedelta(days=+i)
+        dt = start_date + delta
+        date_str = dt.strftime("%Y_%m_%d")
+        month = dt.strftime("%m")
+        day = dt.strftime("%d")
+        num_cars = get_num_cars_for_traffic_camera(month=month, day=day)
+
+        data[date_str] = num_cars
+
+    return data
+
+def plot_time_series(time_series):
+    sorted_datetimes = sorted(time_series.keys())
+    sorted_num_cars = [time_series[dt] for dt in sorted_datetimes]
+
+    plt.plot(sorted_datetimes, sorted_num_cars)
+    plt.xticks(rotation=-45)
+    plt.show()
+
+def predict(time_series):
+    prediction = make_predictions()
+    print("predicting: %f" %(prediction))
+    return prediction
+
+#6703 is PIE x Thomson
+#6701 is PIE x CTE
+def main():
+    time_series = get_data_for_period()
+    # plot_time_series(time_series)
+    prediction = predict(time_series)
+    if prediction < 20:
         print("You can sleep in")
     else:
         print("Wakey wakey, need to go to work :)")
-    print(num_cars)
-
-#6703 is PIE x Thomson
-def main(camera_id="6703", year="2018", month="09" , day="19", hour="09", minute="00", second="00", tz_hour="08", tz_minute="00"):
-    # time_stamp = "2018-09-19T17:41:16+08:00"
-    # time_stamp = "%s-%s-%sT%s%3A%s%3A%s%2B%s%3A%s" %(year, month, day, hour, minute, second, tz_hour, tz_minute)
-    time_stamp = "2018-09-18T09%3A00%3A00%2B08%3A00"
-    # print(time_stamp)
-    get_traffic_camera_image(time_stamp, camera_id)
 
 if __name__ == "__main__":
-    print("Building time series for your location")
+    print("Building time series")
     main()

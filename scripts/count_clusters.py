@@ -128,7 +128,7 @@ def main(path="./image_data/images/2018/08/1e0c1720-759d-4113-b3d2-e9257e020ae2.
     if is_show_imgs:
         img.show()
     squares = load_squares()
-    num_clusters = count_clusters(img, squares, True)
+    num_clusters = count_clusters(img, squares, is_show_imgs)
     print("Found %d clusters" %(num_clusters))
 
 
